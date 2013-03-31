@@ -32,7 +32,8 @@ import XMonad.Util.Run (spawnPipe)
 import XMonad.Actions.CycleWS           -- nextWS, prevWS
 import Data.List                        -- clickable workspaces
 
-
+-- MULTIMONITOR
+import XMonad.Actions.PhysicalScreens
 
 defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle ||| tiled) ||| fullTile)
                         $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
@@ -182,6 +183,18 @@ main = do
                 ,((0                            , xF86XK_AudioPlay), spawn "ncmpcpp toggle")
                 ,((0                            , xF86XK_AudioNext), spawn "ncmpcpp next")
                 ,((0                            , xF86XK_AudioPrev), spawn "ncmpcpp prev")
+                -- Overwrite Xinerama settings for Dvorak Layout
+                -- mod-{w,v,z}, Switch to physical/Xinerama screens 1, 2, or 3
+                -- mod-shift-{w,v,z}, Move client to screen 1, 2, or 3
+                ,((mod4Mask                     , xK_w), viewScreen 0)
+                ,((mod4Mask                     , xK_v), viewScreen 1)
+                ,((mod4Mask                     , xK_z), viewScreen 2)
+                ,((mod4Mask .|. shiftMask       , xK_w), sendToScreen 0)
+                ,((mod4Mask .|. shiftMask       , xK_v), sendToScreen 1)
+                ,((mod4Mask .|. shiftMask       , xK_z), sendToScreen 2)
+--                [((modMask .|. mask, key), f sc)
+--                       | (key, sc) <- zip [xK_w, xK_v, xK_z] [0..]
+--                       , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
                 ]
                 `additionalMouseBindings`
                 [((mod4Mask                     , 6), (\_ -> moveTo Next NonEmptyWS))
