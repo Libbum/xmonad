@@ -61,15 +61,15 @@ myLayout = defaultLayouts
 
 -- Declare workspaces and rules for applications
 
-myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/shell.xbm) 1"
-                ,"^i(/home/genesis/.xmonad/icons/globe.xbm) 2"
-                ,"^i(/home/genesis/.xmonad/icons/calc.xbm) 3"
-                ,"^i(/home/genesis/.xmonad/icons/doc.xbm) 4"
-                ,"^i(/home/genesis/.xmonad/icons/text.xbm) 5"
-                ,"^i(/home/genesis/.xmonad/icons/movie.xbm) 6"
-                ,"^i(/home/genesis/.xmonad/icons/mail.xbm) 7"
-                ,"^i(/home/genesis/.xmonad/icons/monitor.xbm) 8"
-                ,"^i(/home/genesis/.xmonad/icons/picture.xbm) 9"]
+myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/mail.xbm) mail"
+                ,"^i(/home/genesis/.xmonad/icons/globe.xbm) web"
+                ,"^i(/home/genesis/.xmonad/icons/shell.xbm) shell"
+                ,"^i(/home/genesis/.xmonad/icons/monitor.xbm) work"
+                ,"^i(/home/genesis/.xmonad/icons/calc.xbm) code"
+                ,"^i(/home/genesis/.xmonad/icons/text.xbm) latex"
+                ,"^i(/home/genesis/.xmonad/icons/picture.xbm) image"
+                ,"^i(/home/genesis/.xmonad/icons/movie.xbm) video"
+                ,"^i(/home/genesis/.xmonad/icons/doc.xbm) docs"]
 
         where clickable l     = [ "^ca(1,xdotool key alt+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                             (i,ws) <- zip [1..] l,
@@ -77,12 +77,9 @@ myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/shell.xbm) 1"
 
 myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , resource =? "skype"    --> doFloat
-                                , resource =? "eclipse"  --> doFloat
-                                , resource =? "gimp"     --> doFloat
-                                , resource =? "vlc"      --> doFloat
                                 , resource =? "feh"      --> doFloat
                                 , resource =? "chromium" --> doShift (myWorkspaces !! 1)
-                                , resource =? "zathura"  --> doShift (myWorkspaces !! 3)
+                                , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
                                 ]
 newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
