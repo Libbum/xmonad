@@ -87,8 +87,8 @@ newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 myLogHook h = dynamicLogWithPP ( defaultPP
         {
 --                ppCurrent             = dzenColor white0 background . wrap "^fg(#916949).: ^fg()" "^fg(#916949) :.^fg()" . pad
-                  ppCurrent             = dzenColor foreground background . pad
-                , ppVisible             = dzenColor white0 background . pad
+                  ppCurrent             = dzenColor fg_red background . pad
+                , ppVisible             = dzenColor fg_blue background . pad
                 , ppHidden              = dzenColor white0 background . pad
                 , ppHiddenNoWindows     = dzenColor black0 background . pad
                 , ppWsSep               = ""
@@ -240,3 +240,18 @@ cyan1= "#6e98b8"
 
 white0=  "#b2b2b2"
 white1= "#bdbdbd"
+
+fg_normal     = "#aaaaaa"
+fg_focus      = "#7788af"
+fg_urgent     = "#94738c"
+fg_minimize   = "#444444"
+
+fg_black      = "#424242"
+fg_red        = "#ce5666"
+fg_green      = "#80a673"
+fg_yellow     = "#ffaf5f"
+fg_blue       = "#7788af"
+fg_magenta    = "#94738c"
+fg_cyan       = "#778baf"
+fg_white      = "#aaaaaa"
+fg_blu        = "#8ebdde"
