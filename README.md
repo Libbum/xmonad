@@ -11,5 +11,6 @@ I run a tripple monitor setup and Dvorak keyboard layout (and am considering mov
 - [x] Sort out Gimp layout (changed to single window and sunk default floating behaviour)
 - [ ] Colour each visible workspace separately
 - [ ] Set up decent layouts
+- [ ] Individualise layouts; specifically layout flip (master on left for rhs monitor, master on right for lhs monitor)
 - [ ] fix dzen2 bar to my liking
 - [ ] Organise keymap better

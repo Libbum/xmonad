@@ -39,14 +39,14 @@ import XMonad.Actions.PhysicalScreens
 defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle ||| tiled) ||| fullTile)
                         $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
                         $ onWorkspace (myWorkspaces !! 2) (avoidStruts simplestFloat)
-                        $ avoidStruts ( tiledSpace  ||| tiled ||| fullTile ||| goldenSpiral ||| Circle ) ||| fullScreen
+                        $ avoidStruts ( tiledSpace  ||| tiled ||| fullTile ||| goldenSpiral ||| Circle ||| fullTile3 ) ||| fullScreen
         where
                 tiled           = spacing 5 $ ResizableTall nmaster delta ratio []
                 tiledSpace      = spacing 60 $ ResizableTall nmaster delta ratio []
                 tile3           = spacing 5 $ ThreeColMid nmaster delta ratio
                 fullScreen      = noBorders(fullscreenFull Full)
                 fullTile        = ResizableTall nmaster delta ratio []
-                fullTile3       =  ThreeColMid nmaster delta ratio
+                fullTile3       = ThreeColMid nmaster delta ratio
                 borderlessTile  = noBorders(fullTile)
                 fullGoldenSpiral        = spiral ratio
                 goldenSpiral    = spacing 5 $ spiral ratio
@@ -73,10 +73,9 @@ myWorkspaces = clickable $
                 ,"^i(/home/genesis/.xmonad/icons/picture.xbm) image"
                 ,"^i(/home/genesis/.xmonad/icons/movie.xbm) video"
                 ,"^i(/home/genesis/.xmonad/icons/doc.xbm) docs"]
-
         where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
-                            (i,ws) <- zip [1..] l,
-                            let n = i ]
+                                    (i,ws) <- zip [1..] l,
+                                    let n = i ]
 
 myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , resource =? "skype"    --> doFloat
@@ -91,23 +90,23 @@ newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myLogHook h = dynamicLogWithPP ( defaultPP
         {
---                ppCurrent             = dzenColor white0 background . wrap "^fg(#916949).: ^fg()" "^fg(#916949) :.^fg()" . pad
                   ppCurrent             = dzenColor fg_red background . pad
                 , ppVisible             = dzenColor fg_blue background . pad
                 , ppHidden              = dzenColor white0 background . pad
                 , ppHiddenNoWindows     = dzenColor black0 background . pad
                 , ppWsSep               = ""
                 , ppSep                 = "    "
-                , ppLayout              = wrap "^ca(1,xdotool key alt+space)" "^ca()" . dzenColor white1 background .
+                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor white1 background .
                                 (\x -> case x of
                                         "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
                                         "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
                                         "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
                                         "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
+                                        "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
                                         "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
+                                        "ThreeColMid"                    ->      "^i(/home/genesis/.xmonad/icons/column.xbm)"
                                         _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
                                 )
---              , ppTitle       =   wrap "^ca(1,xdotool key alt+shift+x)^fg(#424242)^i(/home/genesis/.xmonad/dzen2/corner_left.xbm)^bg(#424242)^fg(#74637d)X" "^fg(#424242)^i(/home/genesis/.xmonad/dzen2/corner_right.xbm)^ca()" .  dzenColor background green0 . shorten 40 . pad		
                 , ppOrder       =  \(ws:l:t:_) -> [ws,l]
                 , ppOutput      =   hPutStrLn h
         } )
