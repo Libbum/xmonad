@@ -9,6 +9,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Circle
 import XMonad.Layout.Spiral
+import qualified XMonad.StackSet as W
 
 import XMonad.Actions.GridSelect
 -- WINDOW RULES
@@ -62,7 +63,8 @@ myLayout = defaultLayouts
 
 -- Declare workspaces and rules for applications
 
-myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/mail.xbm) mail"
+myWorkspaces = clickable $
+                ["^i(/home/genesis/.xmonad/icons/mail.xbm) mail"
                 ,"^i(/home/genesis/.xmonad/icons/globe.xbm) web"
                 ,"^i(/home/genesis/.xmonad/icons/shell.xbm) shell"
                 ,"^i(/home/genesis/.xmonad/icons/monitor.xbm) work"
@@ -72,16 +74,19 @@ myWorkspaces = clickable $ ["^i(/home/genesis/.xmonad/icons/mail.xbm) mail"
                 ,"^i(/home/genesis/.xmonad/icons/movie.xbm) video"
                 ,"^i(/home/genesis/.xmonad/icons/doc.xbm) docs"]
 
-        where clickable l     = [ "^ca(1,xdotool key alt+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
+        where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                             (i,ws) <- zip [1..] l,
                             let n = i ]
 
 myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , resource =? "skype"    --> doFloat
                                 , resource =? "feh"      --> doFloat
+                                , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                                 , resource =? "chromium" --> doShift (myWorkspaces !! 1)
                                 , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
                                 ]
+                        where role = stringProperty "WM_WINDOW_ROLE"
+
 newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myLogHook h = dynamicLogWithPP ( defaultPP
@@ -123,7 +128,7 @@ main = do
                 { terminal              = myTerminal
                 , borderWidth           = 1
                 , normalBorderColor     = black0
-                , focusedBorderColor    = magenta0
+                , focusedBorderColor    = fg_magenta
                 , modMask               = mod4Mask
                 , layoutHook            = smartBorders(myLayout)
 --              , layoutHook            = avoidStruts  $  layoutHook defaultConfig
@@ -136,8 +141,8 @@ main = do
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_b), spawn "chromium")
-                ,((mod4Mask                     , xK_b), spawn "dwb")
-                ,((mod4Mask .|. shiftMask       , xK_n), spawn "urxvt -fn '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*' -fb '-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*' -fi '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*'")
+--                ,((mod4Mask                     , xK_b), lookupWorkspace 5)
+--              ,((mod4Mask .|. shiftMask       , xK_n), spawn "urxvt -fn '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*' -fb '-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*' -fi '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*'")
                 ,((mod4Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
 --              ,((mod4Mask                     , xK_z), spawn "zathura")
 --              ,((mod4Mask                     , xK_r), spawn "/home/genesis/.xmonad/scripts/lens")
@@ -145,7 +150,7 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run")
 --                ,((mod4Mask .|. shiftMask       , xK_r), spawn "/home/genesis/.xmonad/scripts/dmenu/spotlight")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
-                ,((mod4Mask .|. shiftMask       , xK_i), spawn "xcalib -invert -alter")
+--              ,((mod4Mask .|. shiftMask       , xK_i), spawn "xcalib -invert -alter")
                 ,((mod4Mask .|. shiftMask       , xK_x), kill)
                 ,((mod4Mask .|. shiftMask       , xK_c), return())
                 ,((mod4Mask                     , xK_p), moveTo Prev NonEmptyWS)
@@ -154,7 +159,7 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_l), sendMessage MirrorShrink)
                 ,((mod4Mask .|. shiftMask       , xK_h), sendMessage MirrorExpand)
 --              ,((mod4Mask .|. shiftMask       , xK_q), sendMessage MirrorExpand)
---                ,((mod4Mask                     , xK_v), screenWorkspace sc >>= flip whenJust (windows . f))
+--              ,((mod4Mask                     , xK_v), screenWorkspace sc >>= flip whenJust (windows . f))
                 ,((mod4Mask                     , xK_a), withFocused (keysMoveWindow (-20,0)))
                 ,((mod4Mask                     , xK_comma), withFocused (keysMoveWindow (0,-20)))
                 ,((mod4Mask                     , xK_o), withFocused (keysMoveWindow (0,20)))
@@ -204,7 +209,7 @@ main = do
                 ]
 
 myTerminal      = "urxvt"
-myBitmapsDir    = "~/.xmonad/dzen2/"
+myBitmapsDir    = "~/.xmonad/icons/"
 myFont          = "xft:PragmataPro:style=Regular:pixelsize=14"
 --myFont                = "-*-tamsyn-medium-*-normal-*-10-*-*-*-*-*-*-*"
 --myFont                = "-*-terminus-medium-*-normal-*-9-*-*-*-*-*-*-*"
