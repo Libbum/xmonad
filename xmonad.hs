@@ -114,15 +114,11 @@ myLogHook h = dynamicLogWithPP ( defaultPP
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '25' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -x '2620' -w '1220' -h '25' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -y '0' -fn "++myFont
 --myConky = "conky -c /home/genesis/conkyrc"
---myStartMenu = "/home/genesis/.xmonad/start /home/genesis/.xmonad/start_apps"
 
 main = do
         dzenLeftBar     <- spawnPipe myXmonadBar
         dzenRightBar    <- spawnPipe myStatusBar
---      xmproc          <- spawnPipe "/usr/bin/docky"
---      xmproc          <- spawnPipe "GTK2_RC_FILES=/home/genesis/.gtkdocky /usr/bin/docky"
 --      conky           <- spawn myConky
---      dzenStartMenu   <- spawnPipe myStartMenu
         xmonad $ ewmh defaultConfig
                 { terminal              = myTerminal
                 , borderWidth           = 1
@@ -140,16 +136,10 @@ main = do
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_b), spawn "chromium")
---                ,((mod4Mask                     , xK_b), lookupWorkspace 5)
---              ,((mod4Mask .|. shiftMask       , xK_n), spawn "urxvt -fn '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*' -fb '-*-terminus-bold-r-normal-*-12-*-*-*-*-*-*-*' -fi '-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*'")
                 ,((mod4Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
---              ,((mod4Mask                     , xK_z), spawn "zathura")
---              ,((mod4Mask                     , xK_r), spawn "/home/genesis/.xmonad/scripts/lens")
 --              ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -nb '#000000' -nf '#404040' -sb '#000000' -sf '#FFFFFF' -fn '-*-lime-*-*-*-*-*-*-*-*-*-*-*-*'")
                 ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run")
---                ,((mod4Mask .|. shiftMask       , xK_r), spawn "/home/genesis/.xmonad/scripts/dmenu/spotlight")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
---              ,((mod4Mask .|. shiftMask       , xK_i), spawn "xcalib -invert -alter")
                 ,((mod4Mask .|. shiftMask       , xK_x), kill)
                 ,((mod4Mask .|. shiftMask       , xK_c), return())
                 ,((mod4Mask                     , xK_p), moveTo Prev NonEmptyWS)
@@ -157,7 +147,6 @@ main = do
                 ,((mod4Mask                     , xK_c), moveTo Next EmptyWS)
                 ,((mod4Mask .|. shiftMask       , xK_l), sendMessage MirrorShrink)
                 ,((mod4Mask .|. shiftMask       , xK_h), sendMessage MirrorExpand)
---              ,((mod4Mask .|. shiftMask       , xK_q), sendMessage MirrorExpand)
 --              ,((mod4Mask                     , xK_v), screenWorkspace sc >>= flip whenJust (windows . f))
                 ,((mod4Mask                     , xK_a), withFocused (keysMoveWindow (-20,0)))
                 ,((mod4Mask                     , xK_comma), withFocused (keysMoveWindow (0,-20)))
@@ -167,8 +156,6 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_comma), withFocused (keysResizeWindow (0,-20) (0,0)))
                 ,((mod4Mask .|. shiftMask       , xK_o), withFocused (keysResizeWindow (0,20) (0,0)))
                 ,((mod4Mask .|. shiftMask       , xK_e), withFocused (keysResizeWindow (20,0) (0,0)))
---              ,((0                            , xK_Super_L), spawn "menu ~/.xmonad/apps")
---              ,((mod4Mask                     , xK_Super_L), spawn "menu ~/.xmonad/configs")
                 ,((mod4Mask                     , xK_F1), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_music.sh")
                 ,((mod4Mask                     , xK_F2), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_vol.sh")
                 ,((mod4Mask                     , xK_F3), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_network.sh")
@@ -182,7 +169,6 @@ main = do
                 ,((0                            , xF86XK_AudioLowerVolume), spawn "amixer set Master 2- & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
                 ,((0                            , xF86XK_AudioRaiseVolume), spawn "amixer set Master 2+ & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
                 ,((0                            , xF86XK_AudioMute), spawn "amixer set Master toggle")
---              ,((0                            , xF86XK_Display), spawn "xrandr --output VGA1 --mode 1366x768")
                 ,((0                            , xF86XK_Sleep), spawn "sudo suspend")
                 ,((0                            , xF86XK_AudioPlay), spawn "ncmpcpp toggle")
                 ,((0                            , xF86XK_AudioNext), spawn "ncmpcpp next")
@@ -210,41 +196,37 @@ main = do
 myTerminal      = "urxvt"
 myBitmapsDir    = "~/.xmonad/icons/"
 myFont          = "xft:PragmataPro:style=Regular:pixelsize=14"
---myFont                = "-*-tamsyn-medium-*-normal-*-10-*-*-*-*-*-*-*"
---myFont                = "-*-terminus-medium-*-normal-*-9-*-*-*-*-*-*-*"
---myFont                = "-*-lime-*-*-*-*-*-*-*-*-*-*-*-*"
---myFont                = "-*-drift-*-*-*-*-*-*-*-*-*-*-*-*"
---myFont                = "xft:inconsolata:size=10"
---myFont                = "xft:droid sans mono:size=9"
---myFont                = "-*-cure-*-*-*-*-*-*-*-*-*-*-*-*"
 
-background= "#000000"
-foreground= "#ffffff"
 
-black0= "#343638"
-black1= "#404040"
+-- Old Colours. (Check their usage and clean them out if not needed)
+background    = "#000000"
+foreground    = "#ffffff"
 
-red0=  "#2f468e"
-red1=  "#7791e0"
+black0        = "#343638"
+black1        = "#404040"
 
-green0= "#424242"
-green1= "#828a8c"
+red0          = "#2f468e"
+red1          = "#7791e0"
 
-yellow0=  "#6b8ba3"
-yellow1= "#8ebdde"
+green0        = "#424242"
+green1        = "#828a8c"
 
-blue0=  "#1c4582"
-blue1= "#5365a6"
+yellow0       = "#6b8ba3"
+yellow1       = "#8ebdde"
 
-magenta0=  "#74636d"
-magenta1= "#927d9e"
+blue0         = "#1c4582"
+blue1         = "#5365a6"
 
-cyan0=  "#556c85"
-cyan1= "#6e98b8"
+magenta0      = "#74636d"
+magenta1      = "#927d9e"
 
-white0=  "#b2b2b2"
-white1= "#bdbdbd"
+cyan0         = "#556c85"
+cyan1         = "#6e98b8"
 
+white0        =  "#b2b2b2"
+white1        = "#bdbdbd"
+
+-- New Colours. May not be 100% to my liking yet..
 fg_normal     = "#aaaaaa"
 fg_focus      = "#7788af"
 fg_urgent     = "#94738c"
