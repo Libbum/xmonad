@@ -6,11 +6,16 @@ My xmonad config - quite early in development, plenty to do before it's useful o
 
 I run a tripple monitor setup and Dvorak keyboard layout (and am considering moving to the workman layout). Because of this, keybindings are probably going to be quite different to the norm. I'm also going to be quite focused on Xinerama based movements too, so this layout won't be for the everyday user.
 
+## Key Bindings
+
+![Alt text](https://raw.github.com/Libbum/xmonad/master/keymap.png "Current Keymap")
+
 ## Todo
 
 - [x] Sort out Gimp layout (changed to single window and sunk default floating behaviour)
 - [ ] Colour each visible workspace separately
-- [ ] Set up decent layouts
-- [ ] Individualise layouts; specifically layout flip (master on left for rhs monitor, master on right for lhs monitor)
+- [ ] Set up decent layouts [in progress]
+- [ ] Individualise layouts; ie. overwrite default workspace layouts based on Xinerama screen - specifically layout flip (master on left for rhs monitor, master on right for lhs monitor)
 - [ ] fix dzen2 bar to my liking
-- [ ] Organise keymap better
+- [X] Organise keymap better
+- [ ] Maybe look into Floatkeys. Discussion on [StackOverflow](http://stackoverflow.com/questions/9157349/xmonad-when-floating-a-window-move-or-resize-it) (only useful if I use floats a lot - doesn't seem to be the case atm)
