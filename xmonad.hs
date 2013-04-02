@@ -84,6 +84,7 @@ myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                                 , resource =? "chromium" --> doShift (myWorkspaces !! 1)
                                 , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
+--                                , isFullscreen --> (doF W.focusDown <+> doFullFloat)
                                 ]
                         where role = stringProperty "WM_WINDOW_ROLE"
 

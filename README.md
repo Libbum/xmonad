@@ -19,3 +19,4 @@ I run a tripple monitor setup and Dvorak keyboard layout (and am considering mov
 - [ ] fix dzen2 bar to my liking
 - [X] Organise keymap better
 - [ ] Maybe look into Floatkeys. Discussion on [StackOverflow](http://stackoverflow.com/questions/9157349/xmonad-when-floating-a-window-move-or-resize-it) (only useful if I use floats a lot - doesn't seem to be the case atm)
+- [ ] Fix flash fullscreen - Think I've got too many hooks fighting for dominance...
