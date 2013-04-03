@@ -5,10 +5,14 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.SimplestFloat
-import XMonad.Layout.ThreeColumns
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.MosaicAlt
 import XMonad.Layout.Circle
 import XMonad.Layout.Spiral
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.Reflect
+import XMonad.Layout.MultiToggle.Instances hiding (FULL, NBFULL, NOBORDERS, SMARTBORDERS)
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
@@ -40,15 +44,14 @@ import XMonad.Actions.PhysicalScreens
 defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle ||| tiled) ||| fullTile)
                         $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
                         $ onWorkspace (myWorkspaces !! 2) (avoidStruts simplestFloat)
-                        $ avoidStruts ( tiledSpace  ||| tiled ||| fullTile ||| goldenSpiral ||| Circle ||| fullTile3 ) ||| fullScreen
+                        $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
                 tiled           = spacing 5 $ ResizableTall nmaster delta ratio []
                 tiledSpace      = spacing 60 $ ResizableTall nmaster delta ratio []
-                tile3           = spacing 5 $ ThreeColMid nmaster delta ratio
                 fullScreen      = noBorders(fullscreenFull Full)
                 fullTile        = ResizableTall nmaster delta ratio []
-                fullTile3       = ThreeColMid nmaster delta ratio
                 borderlessTile  = noBorders(fullTile)
+                mosaic          = spacing 5 $ MosaicAlt M.empty
                 fullGoldenSpiral        = spiral ratio
                 goldenSpiral    = spacing 5 $ spiral ratio
                 -- Default number of windows in master pane
@@ -106,7 +109,6 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                                         "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
                                         "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
                                         "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
-                                        "ThreeColMid"                    ->      "^i(/home/genesis/.xmonad/icons/column.xbm)"
                                         _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
                                 )
                 , ppOrder       =  \(ws:l:t:_) -> [ws,l]
@@ -143,6 +145,8 @@ main = do
                 -- Window and Program sittings for Dvorak Layout
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
                 ,((mod4Mask                     , xK_f), toggleFloat)
+                ,((mod4Mask                     , xK_m), sendMessage $ Toggle REFLECTX)
+                ,((mod4Mask .|. shiftMask       , xK_m), sendMessage $ Toggle MIRROR)
                 ,((mod4Mask                     , xK_n), windows W.focusDown)
                 ,((mod4Mask .|. shiftMask       , xK_n), windows W.swapDown)
                 ,((mod4Mask                     , xK_t), windows W.focusUp)

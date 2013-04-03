@@ -12,10 +12,10 @@ I run a tripple monitor setup and Dvorak keyboard layout (and am considering mov
 
 ## Todo
 
-- [x] Sort out Gimp layout (changed to single window and sunk default floating behaviour)
+- [X] Sort out Gimp layout (changed to single window and sunk default floating behaviour)
 - [ ] Colour each visible workspace separately
-- [ ] Set up decent layouts [in progress]
-- [ ] Individualise layouts; ie. overwrite default workspace layouts based on Xinerama screen - specifically layout flip (master on left for rhs monitor, master on right for lhs monitor)
+- [X] Set up decent layouts 
+- [ ] Individualise layouts; ie. overwrite default workspace layouts based on Xinerama screen - specifically layout flip (master on left for rhs monitor, master on right for lhs monitor) [Partially done - added M-m & M-M commands, want to ultimately hook this though...]
 - [ ] fix dzen2 bar to my liking
 - [X] Organise keymap better
 - [ ] Maybe look into Floatkeys. Discussion on [StackOverflow](http://stackoverflow.com/questions/9157349/xmonad-when-floating-a-window-move-or-resize-it) (only useful if I use floats a lot - doesn't seem to be the case atm)
