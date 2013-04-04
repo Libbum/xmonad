@@ -44,6 +44,7 @@ import XMonad.Actions.PhysicalScreens
 defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle ||| tiled) ||| fullTile)
                         $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
                         $ onWorkspace (myWorkspaces !! 2) (avoidStruts simplestFloat)
+                        $ onWorkspace (myWorkspaces !! 4) (avoidStruts fullScreen)
                         $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
                 tiled           = spacing 5 $ ResizableTall nmaster delta ratio []
@@ -84,6 +85,7 @@ myWorkspaces = clickable $
 myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , resource =? "skype"    --> doFloat
                                 , resource =? "feh"      --> doFloat
+                                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 4)
                                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                                 , resource =? "chromium" --> doShift (myWorkspaces !! 1)
                                 , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
@@ -135,8 +137,8 @@ main = do
                 , manageHook            = newManageHook
 --              , manageHook            = manageDocks <+> manageHook defaultConfig
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
-                , startupHook           = setWMName "LG3D"
-                , logHook               = myLogHook dzenLeftBar -- >> fadeInactiveLogHook 0xdddddddd
+                , startupHook           = ewmhDesktopsStartup >> setWMName "LG3D"
+                , logHook               = myLogHook dzenLeftBar >> setWMName "LG3D" -- >> fadeInactiveLogHook 0xdddddddd
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
