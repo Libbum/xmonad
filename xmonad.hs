@@ -47,14 +47,14 @@ defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle |
                         $ onWorkspace (myWorkspaces !! 4) (avoidStruts fullScreen)
                         $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
-                tiled           = spacing 5 $ ResizableTall nmaster delta ratio []
-                tiledSpace      = spacing 60 $ ResizableTall nmaster delta ratio []
-                fullScreen      = noBorders(fullscreenFull Full)
-                fullTile        = ResizableTall nmaster delta ratio []
-                borderlessTile  = noBorders(fullTile)
-                mosaic          = spacing 5 $ MosaicAlt M.empty
-                fullGoldenSpiral        = spiral ratio
-                goldenSpiral    = spacing 5 $ spiral ratio
+                tiled            = spacing 5 $ ResizableTall nmaster delta ratio []
+                tiledSpace       = spacing 60 $ ResizableTall nmaster delta ratio []
+                fullScreen       = noBorders(fullscreenFull Full)
+                fullTile         = ResizableTall nmaster delta ratio []
+                borderlessTile   = noBorders(fullTile)
+                mosaic           = spacing 5 $ MosaicAlt M.empty
+                fullGoldenSpiral = spiral ratio
+                goldenSpiral     = spacing 5 $ spiral ratio
                 -- Default number of windows in master pane
                 nmaster = 1
                 -- Percent of the screen to increment when resizing
@@ -118,7 +118,7 @@ myLogHook h = dynamicLogWithPP ( defaultPP
         } )
 
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '25' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
-myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -x '2620' -w '1220' -h '25' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -y '0' -fn "++myFont
+myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -w '1220' -h '25' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
 --myConky = "conky -c /home/genesis/conkyrc"
 
 main = do
