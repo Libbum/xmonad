@@ -41,7 +41,7 @@ import Data.List                        -- clickable workspaces
 -- MULTIMONITOR
 import XMonad.Actions.PhysicalScreens
 
-defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (Circle ||| tiled) ||| fullTile)
+defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (tiledSpace ||| tiled) ||| fullTile)
                         $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
                         $ onWorkspace (myWorkspaces !! 2) (avoidStruts simplestFloat)
                         $ onWorkspace (myWorkspaces !! 4) (avoidStruts fullScreen)
@@ -117,8 +117,8 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppOutput      =   hPutStrLn h
         } )
 
-myXmonadBar = "dzen2 -x '1920' -y '0' -h '25' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
-myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -w '1220' -h '25' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
+myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
+myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
 --myConky = "conky -c /home/genesis/conkyrc"
 
 main = do
@@ -207,7 +207,7 @@ main = do
 
 myTerminal      = "urxvt"
 myBitmapsDir    = "~/.xmonad/icons/"
-myFont          = "xft:PragmataPro:style=Regular:pixelsize=14"
+myFont          = "xft:PragmataPro:style=Regular:pixelsize=12"
 
 
 -- Old Colours. (Check their usage and clean them out if not needed)
