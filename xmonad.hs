@@ -97,10 +97,10 @@ newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myLogHook h = dynamicLogWithPP ( defaultPP
         {
-                  ppCurrent             = dzenColor fg_red background . pad
-                , ppVisible             = dzenColor fg_blue background . pad
-                , ppHidden              = dzenColor white0 background . pad
-                , ppHiddenNoWindows     = dzenColor black0 background . pad
+                  ppCurrent             = dzenColor "#CC6666" background . pad
+                , ppVisible             = dzenColor "#81A2BE" background . pad
+                , ppHidden              = dzenColor "#C5C8C6" background . pad
+                , ppHiddenNoWindows     = dzenColor "#707880" background . pad
                 , ppWsSep               = ""
                 , ppSep                 = "    "
                 , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
@@ -200,37 +200,5 @@ myTerminal      = "urxvt"
 myBitmapsDir    = "~/.xmonad/icons/"
 myFont          = "xft:PragmataPro:style=Regular:pixelsize=12"
 
-
--- Old Colours. (Check their usage and clean them out if not needed)
 background    = "#000000"
 foreground    = "#ffffff"
-black0        = "#343638"
-black1        = "#404040"
-red0          = "#2f468e"
-red1          = "#7791e0"
-green0        = "#424242"
-green1        = "#828a8c"
-yellow0       = "#6b8ba3"
-yellow1       = "#8ebdde"
-blue0         = "#1c4582"
-blue1         = "#5365a6"
-magenta0      = "#74636d"
-magenta1      = "#927d9e"
-cyan0         = "#556c85"
-cyan1         = "#6e98b8"
-white0        =  "#b2b2b2"
-white1        = "#bdbdbd"
-
--- New Colours. May not be 100% to my liking yet..
-fg_normal     = "#aaaaaa"
-fg_focus      = "#7788af"
-fg_urgent     = "#94738c"
-fg_minimize   = "#444444"
-fg_red        = "#ce5666"
-fg_green      = "#80a673"
-fg_yellow     = "#ffaf5f"
-fg_blue       = "#7788af"
-fg_magenta    = "#94738c"
-fg_cyan       = "#778baf"
-fg_white      = "#aaaaaa"
-fg_blu        = "#8ebdde"
