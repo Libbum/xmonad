@@ -69,15 +69,15 @@ myLayout = defaultLayouts
 -- Declare workspaces and rules for applications
 
 myWorkspaces = clickable $
-                ["^i(/home/genesis/.xmonad/icons/mail.xbm) alpha"
-                ,"^i(/home/genesis/.xmonad/icons/globe.xbm) beta"
-                ,"^i(/home/genesis/.xmonad/icons/shell.xbm) gamma"
-                ,"^i(/home/genesis/.xmonad/icons/monitor.xbm) delta"
-                ,"^i(/home/genesis/.xmonad/icons/calc.xbm) epsilon"
-                ,"^i(/home/genesis/.xmonad/icons/text.xbm) stigma"
-                ,"^i(/home/genesis/.xmonad/icons/picture.xbm) zeta"
-                ,"^i(/home/genesis/.xmonad/icons/movie.xbm) eta"
-                ,"^i(/home/genesis/.xmonad/icons/doc.xbm) theta"]
+                ["^i(/home/genesis/.xmonad/icons/alpha.xbm) alpha"
+                ,"^i(/home/genesis/.xmonad/icons/beta.xbm) beta"
+                ,"^i(/home/genesis/.xmonad/icons/gamma.xbm) gamma"
+                ,"^i(/home/genesis/.xmonad/icons/delta.xbm) delta"
+                ,"^i(/home/genesis/.xmonad/icons/epsilon.xbm) epsilon"
+                ,"^i(/home/genesis/.xmonad/icons/stigma.xbm) stigma"
+                ,"^i(/home/genesis/.xmonad/icons/zeta.xbm) zeta"
+                ,"^i(/home/genesis/.xmonad/icons/eta.xbm) eta"
+                ,"^i(/home/genesis/.xmonad/icons/theta.xbm) theta"]
         where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
@@ -103,7 +103,7 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppHiddenNoWindows     = dzenColor black0 background . pad
                 , ppWsSep               = ""
                 , ppSep                 = "    "
-                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor white1 background .
+                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
                                 (\x -> case x of
                                         "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
                                         "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
@@ -128,8 +128,8 @@ main = do
         xmonad $ ewmh defaultConfig
                 { terminal              = myTerminal
                 , borderWidth           = 1
-                , normalBorderColor     = black0
-                , focusedBorderColor    = fg_magenta
+                , normalBorderColor     = "#373B41"
+                , focusedBorderColor    = "#DE935F"
                 , modMask               = mod4Mask
                 , layoutHook            = smartBorders(myLayout)
 --              , layoutHook            = avoidStruts  $  layoutHook defaultConfig
@@ -167,15 +167,6 @@ main = do
 --                [((modMask .|. mask, key), f sc)
 --                       | (key, sc) <- zip [xK_w, xK_v, xK_z] [0..]
 --                       , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
-                -- Dzen scripts
-                ,((mod4Mask                     , xK_F1), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_music.sh")
-                ,((mod4Mask                     , xK_F2), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_vol.sh")
-                ,((mod4Mask                     , xK_F3), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_network.sh")
-                ,((mod4Mask                     , xK_F4), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_battery.sh")
-                ,((mod4Mask                     , xK_F5), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_hardware.sh")
-                ,((mod4Mask                     , xK_F6), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_pacman.sh")
-                ,((mod4Mask                     , xK_F7), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_date.sh")
-                ,((mod4Mask                     , xK_F8), spawn "~/.xmonad/sc ~/.xmonad/scripts/dzen_log.sh")
                 --Special keys
                 ,((0                            , xK_Print), spawn "scrot & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
                 ,((mod4Mask                     , xK_Print), spawn "scrot -s & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
