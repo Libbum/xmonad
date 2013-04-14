@@ -69,15 +69,15 @@ myLayout = defaultLayouts
 -- Declare workspaces and rules for applications
 
 myWorkspaces = clickable $
-                ["^i(/home/genesis/.xmonad/icons/alpha.xbm) alpha"
-                ,"^i(/home/genesis/.xmonad/icons/beta.xbm) beta"
-                ,"^i(/home/genesis/.xmonad/icons/gamma.xbm) gamma"
-                ,"^i(/home/genesis/.xmonad/icons/delta.xbm) delta"
-                ,"^i(/home/genesis/.xmonad/icons/epsilon.xbm) epsilon"
-                ,"^i(/home/genesis/.xmonad/icons/stigma.xbm) stigma"
-                ,"^i(/home/genesis/.xmonad/icons/zeta.xbm) zeta"
-                ,"^i(/home/genesis/.xmonad/icons/eta.xbm) eta"
-                ,"^i(/home/genesis/.xmonad/icons/theta.xbm) theta"]
+                ["^i(/home/genesis/.xmonad/icons/alpha.xpm) alpha"
+                ,"^i(/home/genesis/.xmonad/icons/beta.xpm) beta"
+                ,"^i(/home/genesis/.xmonad/icons/gamma.xpm) gamma"
+                ,"^i(/home/genesis/.xmonad/icons/delta.xpm) delta"
+                ,"^i(/home/genesis/.xmonad/icons/epsilon.xpm) epsilon"
+                ,"^i(/home/genesis/.xmonad/icons/stigma.xpm) stigma"
+                ,"^i(/home/genesis/.xmonad/icons/zeta.xpm) zeta"
+                ,"^i(/home/genesis/.xmonad/icons/eta.xpm) eta"
+                ,"^i(/home/genesis/.xmonad/icons/theta.xpm) theta"]
         where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
