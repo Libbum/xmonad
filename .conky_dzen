@@ -8,12 +8,12 @@ short_units yes
 double_buffer yes
 
 TEXT
-$if_mpd_playing^fg(\#FFFFFF)^i(/home/genesis/.xmonad/icons/music.xbm) ^fg(\#99CCFF)${mpd_artist} - ${mpd_title}$endif \
-^fg(\#FFFFFF)^i(/home/genesis/.xmonad/icons/down.xbm) ^fg(\#99CCFF)${downspeed eth1} \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/up.xbm) ^fg(\#99CCFF)${upspeed eth1} \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/temp.xbm) ^fg(\#99CCFF)${hwmon 0 temp 2}°C ${hwmon 1 fan 1}RPM \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/cpu.xbm) ^fg(\#99CCFF)${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}% \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/mem.xbm)^fg(\#99CCFF) ${mem}/${memmax} \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/pacman.xbm)^fg(\#99CCFF) ${exec pacman -Qu | wc -l} \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/mail.xbm)^fg(\#99CCFF) ${execi 20 cat $HOME/.config/unread} \
-^fg(\#FFFFFF)^i($HOME/.xmonad/icons/clock.xbm) ^fg(\#99CCFF) ${time %a} ${time %e} ${time %b} > ${time %I}:${time %M} ${time %P}^fg(\#FFFFFF) 
+$if_mpd_playing^fg(\#8ABEB7)^i(/home/genesis/.xmonad/icons/music.xbm) ${mpd_artist} ^fg(\#707880)- ^fg(\#B294BB)${mpd_title}$endif     \
+^fg(\#B5BD68)^i(/home/genesis/.xmonad/icons/down.xbm) ${downspeed eth1}     \
+^fg(\#DE935F)^i($HOME/.xmonad/icons/up.xbm) ${upspeed eth1}     \
+^fg(\#CC6666)^i($HOME/.xmonad/icons/temp.xbm) ${hwmon 0 temp 2}°C ${hwmon 1 fan 1}RPM     \
+^fg(\#81A2BE)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}%     \
+^fg(\#F0C674)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax}     \
+^fg(\#5E8D87)^i($HOME/.xmonad/icons/pacman.xbm) ${exec pacman -Qu | wc -l}     \
+^fg(\#85678F)^i($HOME/.xmonad/icons/mail.xbm) ${execi 20 cat $HOME/.config/unread}     \
+^fg(\#81A2BE)^i($HOME/.xmonad/icons/clock.xbm) ${time %a} ${time %e} ${time %b} ^fg(\#707880)> ^fg(\#CC6666)${time %I}:${time %M} ${time %P}  
