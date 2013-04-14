@@ -142,7 +142,7 @@ main = do
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
-                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '25' -nb '#000000' -nf '#8ebdde' -sb '#7788af' -sf '#ffffff' -fn 'PragmataPro-12'")
+                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#81A2BE' -sb '#282A2E' -sf '#DE935F' -fn 'PragmataPro-10'")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
                 -- Window and Program sittings for Dvorak Layout
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
