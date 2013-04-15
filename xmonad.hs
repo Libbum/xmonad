@@ -35,7 +35,7 @@ import Data.List                        -- clickable workspaces
 -- MULTIMONITOR
 import XMonad.Actions.PhysicalScreens
 
-defaultLayouts =          onWorkspace (myWorkspaces !! 8) (avoidStruts fullScreen)
+defaultLayouts =          onWorkspace (myWorkspaces !! 8) ((avoidStruts fullScreen) ||| fullScreen)
                         $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
                 tiled            = spacing 5 $ ResizableTall nmaster delta ratio []
@@ -73,7 +73,6 @@ myManageHook = composeAll
                 , resource =? "feh"      --> doFloat
                 , resource =? "MATLAB"   --> doShift (myWorkspaces !! 8)
                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
-                , resource =? "chromium" --> doShift (myWorkspaces !! 1)
                 , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
                 ]
         where role = stringProperty "WM_WINDOW_ROLE"
@@ -91,8 +90,8 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
                                 (\x -> case x of
                                         "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
-                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
-                                        "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
+                                        "Spacing 60 ResizableTall"       ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
+                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
                                         "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
                                         "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
                                         "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
@@ -120,7 +119,8 @@ main = do
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
-                , logHook               = myLogHook dzenLeftBar >> setWMName "LG3D"
+                , startupHook           = setWMName "LG3D"
+                , logHook               = myLogHook dzenLeftBar
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
