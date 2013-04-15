@@ -10,8 +10,8 @@ import XMonad.Layout.MosaicAlt
 import XMonad.Layout.Circle
 import XMonad.Layout.Spiral
 import XMonad.Layout.MultiToggle
-import XMonad.Layout.Reflect
 import XMonad.Layout.MultiToggle.Instances hiding (FULL, NBFULL, NOBORDERS, SMARTBORDERS)
+import XMonad.Layout.Reflect
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -47,9 +47,6 @@ defaultLayouts =          onWorkspace (myWorkspaces !! 8) (avoidStruts fullScree
                 -- Default proportion of the screen taken up by main pane
                 ratio   = toRational (2/(1 + sqrt 5 :: Double))
 
--- Give some workspaces no borders
-nobordersLayout = noBorders $ Full
-
 -- Declare workspaces and rules for applications
 
 myWorkspaces = clickable $
@@ -66,7 +63,11 @@ myWorkspaces = clickable $
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
 
-newManageHook = manageHook defaultConfig <+> manageDocks
+myManageHook = composeAll
+                [ isFullscreen --> (doF W.focusDown <+> doFullFloat)
+                ]
+
+newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
@@ -83,10 +84,8 @@ main = do
                 , focusedBorderColor    = "#DE935F"
                 , modMask               = mod4Mask
                 , layoutHook            = smartBorders(defaultLayouts)
---              , layoutHook            = avoidStruts  $  layoutHook defaultConfig
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
---              , manageHook            = manageDocks <+> manageHook defaultConfig
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
                 }
                 `additionalKeys`
