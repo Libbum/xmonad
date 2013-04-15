@@ -7,5 +7,6 @@ cabal-dev
 .virthualenv
 .*.swp
 *.swp
+.*.swp
 *.errors
 xmonad-x86_64-linux

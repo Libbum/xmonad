@@ -23,9 +23,12 @@ import XMonad.ManageHook
 import XMonad.Util.EZConfig
 import Graphics.X11.ExtraTypes.XF86
 -- STATUS BAR
+import XMonad.Hooks.DynamicLog hiding (xmobar, xmobarPP, xmobarColor, sjanssenPP, byorgeyPP)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.SetWMName
 import XMonad.Util.Dmenu
+import System.IO (hPutStrLn)
 import XMonad.Util.Run (spawnPipe)
 import Data.List                        -- clickable workspaces
 
@@ -65,9 +68,39 @@ myWorkspaces = clickable $
 
 myManageHook = composeAll
                 [ isFullscreen --> (doF W.focusDown <+> doFullFloat)
+                , resource =? "dmenu"    --> doFloat
+                , resource =? "skype"    --> doFloat
+                , resource =? "feh"      --> doFloat
+                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 8)
+                , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
+                , resource =? "chromium" --> doShift (myWorkspaces !! 1)
+                , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
                 ]
+        where role = stringProperty "WM_WINDOW_ROLE"
 
 newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
+
+myLogHook h = dynamicLogWithPP ( defaultPP
+        {
+                  ppCurrent             = dzenColor "#CC6666" background . pad
+                , ppVisible             = dzenColor "#81A2BE" background . pad
+                , ppHidden              = dzenColor "#C5C8C6" background . pad
+                , ppHiddenNoWindows     = dzenColor "#707880" background . pad
+                , ppWsSep               = ""
+                , ppSep                 = "    "
+                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
+                                (\x -> case x of
+                                        "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
+                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
+                                        "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
+                                        "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
+                                        "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
+                                        "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
+                                        _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
+                                )
+                , ppOrder       =  \(ws:l:t:_) -> [ws,l]
+                , ppOutput      =   hPutStrLn h
+        } )
 
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
@@ -87,6 +120,7 @@ main = do
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
+                , logHook               = myLogHook dzenLeftBar >> setWMName "LG3D"
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
