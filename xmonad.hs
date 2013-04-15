@@ -21,21 +21,12 @@ import XMonad.Actions.GridSelect
 import XMonad.ManageHook
 -- KEYBOARD & MOUSE CONFIG
 import XMonad.Util.EZConfig
-import XMonad.Actions.FloatKeys
 import Graphics.X11.ExtraTypes.XF86
 -- STATUS BAR
-import XMonad.Hooks.DynamicLog hiding (xmobar, xmobarPP, xmobarColor, sjanssenPP, byorgeyPP)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.SetWMName
-import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Dmenu
---import XMonad.Hooks.FadeInactive
-import XMonad.Hooks.EwmhDesktops hiding (fullscreenEventHook)
-import System.IO (hPutStrLn)
---import XMonad.Operations
 import XMonad.Util.Run (spawnPipe)
-import XMonad.Actions.CycleWS           -- nextWS, prevWS
 import Data.List                        -- clickable workspaces
 
 -- MULTIMONITOR
@@ -58,7 +49,6 @@ defaultLayouts =          onWorkspace (myWorkspaces !! 8) (avoidStruts fullScree
 
 -- Give some workspaces no borders
 nobordersLayout = noBorders $ Full
-myLayout = defaultLayouts
 
 -- Declare workspaces and rules for applications
 
@@ -76,40 +66,7 @@ myWorkspaces = clickable $
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
 
-myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
-                                , resource =? "skype"    --> doFloat
-                                , resource =? "feh"      --> doFloat
-                                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 8)
-                                , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
-                                , resource =? "chromium" --> doShift (myWorkspaces !! 1)
-                                , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
---                                , isFullscreen --> (doF W.focusDown <+> doFullFloat)
-                                ]
-                        where role = stringProperty "WM_WINDOW_ROLE"
-
-newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
-
-myLogHook h = dynamicLogWithPP ( defaultPP
-        {
-                  ppCurrent             = dzenColor "#CC6666" background . pad
-                , ppVisible             = dzenColor "#81A2BE" background . pad
-                , ppHidden              = dzenColor "#C5C8C6" background . pad
-                , ppHiddenNoWindows     = dzenColor "#707880" background . pad
-                , ppWsSep               = ""
-                , ppSep                 = "    "
-                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
-                                (\x -> case x of
-                                        "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
-                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
-                                        "ResizableTall"                  ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
-                                        "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
-                                        "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
-                                        "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
-                                        _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
-                                )
-                , ppOrder       =  \(ws:l:t:_) -> [ws,l]
-                , ppOutput      =   hPutStrLn h
-        } )
+newManageHook = manageHook defaultConfig <+> manageDocks
 
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
@@ -119,20 +76,18 @@ main = do
         dzenLeftBar     <- spawnPipe myXmonadBar
         dzenRightBar    <- spawnPipe myStatusBar
 --      conky           <- spawn myConky
-        xmonad $ ewmh defaultConfig
+        xmonad $ defaultConfig
                 { terminal              = myTerminal
                 , borderWidth           = 1
                 , normalBorderColor     = "#373B41"
                 , focusedBorderColor    = "#DE935F"
                 , modMask               = mod4Mask
-                , layoutHook            = smartBorders(myLayout)
+                , layoutHook            = smartBorders(defaultLayouts)
 --              , layoutHook            = avoidStruts  $  layoutHook defaultConfig
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
 --              , manageHook            = manageDocks <+> manageHook defaultConfig
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
-                , startupHook           = ewmhDesktopsStartup >> setWMName "LG3D"
-                , logHook               = myLogHook dzenLeftBar >> setWMName "LG3D" -- >> fadeInactiveLogHook 0xdddddddd
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
@@ -175,12 +130,6 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_b), spawn "~/.scripts/wpchanger")
 --                ,((mod4Mask .|. shiftMask       , xK_b), spawn "chromium")
 --                ,((mod4Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
-                ]
-                `additionalMouseBindings`
-                [((mod4Mask                     , 6), (\_ -> moveTo Next NonEmptyWS))
-                ,((mod4Mask                     , 7), (\_ -> moveTo Prev NonEmptyWS))
-                ,((mod4Mask                     , 5), (\_ -> moveTo Prev NonEmptyWS))
-                ,((mod4Mask                     , 4), (\_ -> moveTo Next NonEmptyWS))
                 ]
                 `removeKeys`
                 [(mod4Mask .|. shiftMask, xK_c)]
