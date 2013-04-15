@@ -41,19 +41,13 @@ import Data.List                        -- clickable workspaces
 -- MULTIMONITOR
 import XMonad.Actions.PhysicalScreens
 
-defaultLayouts =          onWorkspace (myWorkspaces !! 0) (avoidStruts (tiledSpace ||| tiled) ||| fullTile)
-                        $ onWorkspace (myWorkspaces !! 1) (avoidStruts (Circle ||| noBorders (fullTile)) ||| fullScreen)
-                        $ onWorkspace (myWorkspaces !! 2) (avoidStruts simplestFloat)
-                        $ onWorkspace (myWorkspaces !! 4) (avoidStruts fullScreen)
+defaultLayouts =          onWorkspace (myWorkspaces !! 8) (avoidStruts fullScreen)
                         $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
                 tiled            = spacing 5 $ ResizableTall nmaster delta ratio []
                 tiledSpace       = spacing 60 $ ResizableTall nmaster delta ratio []
                 fullScreen       = noBorders(fullscreenFull Full)
-                fullTile         = ResizableTall nmaster delta ratio []
-                borderlessTile   = noBorders(fullTile)
                 mosaic           = spacing 5 $ MosaicAlt M.empty
-                fullGoldenSpiral = spiral ratio
                 goldenSpiral     = spacing 5 $ spiral ratio
                 -- Default number of windows in master pane
                 nmaster = 1
@@ -85,7 +79,7 @@ myWorkspaces = clickable $
 myManageHook = composeAll       [ resource =? "dmenu"    --> doFloat
                                 , resource =? "skype"    --> doFloat
                                 , resource =? "feh"      --> doFloat
-                                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 4)
+                                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 8)
                                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                                 , resource =? "chromium" --> doShift (myWorkspaces !! 1)
                                 , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
