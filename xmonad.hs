@@ -67,13 +67,14 @@ myWorkspaces = clickable $
                                     let n = i ]
 
 myManageHook = composeAll
-                [ isFullscreen --> (doF W.focusDown <+> doFullFloat)
-                , resource =? "dmenu"    --> doFloat
-                , resource =? "skype"    --> doFloat
-                , resource =? "feh"      --> doFloat
-                , resource =? "MATLAB"   --> doShift (myWorkspaces !! 8)
+                [ isFullscreen                                              --> (doF W.focusDown   <+> doFullFloat)
+                , isDialog                                                  --> (doF W.shiftMaster <+> doFloat)
+                , resource =? "dmenu"                                       --> doFloat
+                , resource =? "skype"                                       --> doFloat
+                , resource =? "feh"                                         --> doFloat
+                , resource =? "MATLAB"                                      --> doShift (myWorkspaces !! 8)
+                , resource =? "zathura"                                     --> doShift (myWorkspaces !! 8)
                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
-                , resource =? "zathura"  --> doShift (myWorkspaces !! 8)
                 ]
         where role = stringProperty "WM_WINDOW_ROLE"
 
@@ -101,6 +102,42 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppOutput      =   hPutStrLn h
         } )
 
+--- GRID SELECT CUSTOMISATION ---
+
+myGSNavigation :: TwoD a (Maybe a)
+myGSNavigation = makeXEventhandler $ shadowWithKeymap navKeyMap navDefaultHandler
+        where navKeyMap = M.fromList [((0,xK_Escape), cancel)
+                                     ,((0,xK_Return), select)
+                                     ,((0,xK_slash) , substringSearch myGSNavigation)
+                                     ,((0,xK_Left)  , move (-1,0)  >> myGSNavigation)
+                                     ,((0,xK_d)     , move (-1,0)  >> myGSNavigation)
+                                     ,((0,xK_Right) , move (1,0)   >> myGSNavigation)
+                                     ,((0,xK_n)     , move (1,0)   >> myGSNavigation)
+                                     ,((0,xK_Down)  , move (0,1)   >> myGSNavigation)
+                                     ,((0,xK_h)     , move (0,1)   >> myGSNavigation)
+                                     ,((0,xK_Up)    , move (0,-1)  >> myGSNavigation)
+                                     ,((0,xK_t)     , move (0,-1)  >> myGSNavigation)
+                                     ,((0,xK_space) , setPos (0,0) >> myGSNavigation)
+                                     ]
+-- The navigation handler ignores unknown key symbols
+navDefaultHandler = const myGSNavigation
+
+hybridColorizer = colorRangeFromClassName
+                      (0x00,0x00,0x00) -- lowest inactive bg
+                      (0x37,0x3B,0x41) -- highest inactive bg
+                      (0x5F,0x81,0x9D) -- active bg
+                      (0x81,0xA2,0xBE) -- inactive fg
+                      (0xC5,0xC8,0xC6) -- active fg
+
+gsconfig2 colorizer = (buildDefaultGSConfig colorizer)  { gs_cellwidth  = 400
+                                                        , gs_cellheight = 100
+                                                        , gs_font       = "xft:PragmataPro:style=Regular:pixelsize=16"
+                                                        , gs_navigate   = myGSNavigation
+                                                        , gs_colorizer  = hybridColorizer
+                                                        }
+
+--- END GRID SELECT ---
+
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
 --myConky = "conky -c /home/genesis/conkyrc"
@@ -126,7 +163,8 @@ main = do
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
                 ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#81A2BE' -sb '#282A2E' -sf '#DE935F' -fn 'PragmataPro-10'")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
-                -- Window and Program sittings for Dvorak Layout
+                -- Window and Program settings for Dvorak Layout
+                ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
                 ,((mod4Mask                     , xK_f), toggleFloat)
                 ,((mod4Mask                     , xK_m), sendMessage $ Toggle REFLECTX)
@@ -150,10 +188,10 @@ main = do
 --                       | (key, sc) <- zip [xK_w, xK_v, xK_z] [0..]
 --                       , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
                 --Special keys
-                ,((0                            , xK_Print), spawn "scrot & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
-                ,((mod4Mask                     , xK_Print), spawn "scrot -s & mplayer /usr/share/sounds/freedesktop/stereo/screen-capture.oga")
-                ,((0                            , xF86XK_AudioLowerVolume), spawn "amixer set Master 2- & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
-                ,((0                            , xF86XK_AudioRaiseVolume), spawn "amixer set Master 2+ & mplayer /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga")
+                ,((0                            , xK_Print), spawn "scrot")
+                ,((mod4Mask                     , xK_Print), spawn "scrot -s")
+                ,((0                            , xF86XK_AudioLowerVolume), spawn "amixer set Master 2-")
+                ,((0                            , xF86XK_AudioRaiseVolume), spawn "amixer set Master 2+")
                 ,((0                            , xF86XK_AudioMute), spawn "amixer set Master toggle")
                 ,((0                            , xF86XK_Sleep), spawn "sudo suspend")
                 ,((0                            , xF86XK_AudioPlay), spawn "ncmpcpp toggle")
@@ -161,9 +199,12 @@ main = do
                 ,((0                            , xF86XK_AudioPrev), spawn "ncmpcpp prev")
                 -- Application shortcuts
                 ,((mod4Mask .|. shiftMask       , xK_b), spawn "~/.scripts/wpchanger")
---                ,((mod4Mask .|. shiftMask       , xK_b), spawn "chromium")
---                ,((mod4Mask .|. shiftMask       , xK_t), spawn "urxvt -e tmux")
                 ]
+                `additionalMouseBindings`
+                [((mod4Mask                     , 2), (const $ spawn "ncmpcpp stop"))
+                ,((mod4Mask                     , 4), (const $ spawn "ncmpcpp prev"))
+                ,((mod4Mask                     , 5), (const $ spawn "ncmpcpp next"))
+                ]
                 `removeKeys`
                 [(mod4Mask .|. shiftMask, xK_c)]
         where toggleFloat = withFocused (\windowId -> do
