@@ -30,13 +30,17 @@ import XMonad.Hooks.SetWMName
 import XMonad.Util.Dmenu
 import System.IO (hPutStrLn)
 import XMonad.Util.Run (spawnPipe)
-import Data.List                        -- clickable workspaces
-
+import Data.List
 -- MULTIMONITOR
 import XMonad.Actions.PhysicalScreens
+-- UTILITIES
+import XMonad.Prompt
+import XMonad.Prompt.AppendFile
 
-defaultLayouts =          onWorkspace (myWorkspaces !! 8) ((avoidStruts fullScreen) ||| fullScreen)
-                        $ avoidStruts ( mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
+--- LAYOUTS ---
+
+defaultLayouts = onWorkspace (myWorkspaces !! 8) ((avoidStruts fullScreen) ||| fullScreen)
+               $ avoidStruts (mkToggle (single REFLECTX) $ mkToggle (single MIRROR) ( tiledSpace  ||| tiled ||| goldenSpiral ||| Circle ||| mosaic )) ||| fullScreen
         where
                 tiled            = spacing 5 $ ResizableTall nmaster delta ratio []
                 tiledSpace       = spacing 60 $ ResizableTall nmaster delta ratio []
@@ -50,7 +54,7 @@ defaultLayouts =          onWorkspace (myWorkspaces !! 8) ((avoidStruts fullScre
                 -- Default proportion of the screen taken up by main pane
                 ratio   = toRational (2/(1 + sqrt 5 :: Double))
 
--- Declare workspaces and rules for applications
+--- WORKSPACES ---
 
 myWorkspaces = clickable $
                 ["^i(/home/genesis/.xmonad/icons/alpha.xpm) alpha"
@@ -65,6 +69,8 @@ myWorkspaces = clickable $
         where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
+
+--- HOOKS ---
 
 myManageHook = composeAll
                 [ isFullscreen                                              --> (doF W.focusDown   <+> doFullFloat)
@@ -136,16 +142,26 @@ gsconfig2 colorizer = (buildDefaultGSConfig colorizer)  { gs_cellwidth  = 400
                                                         , gs_colorizer  = hybridColorizer
                                                         }
 
---- END GRID SELECT ---
+--- PROMPT CUSTOMISATION ---
+
+myPromptConfig = defaultXPConfig { font        = "xft:PragmataPro:style=Regular:pixelsize=16"
+                                 , height      = 30
+                                 , bgColor     = "#000000"
+                                 , fgColor     = "#8C9440"
+                                 , borderColor = "#707880"
+                                 , historySize = 0
+                                 }
+
+--- STATUS BARS ---
 
 myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
 myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
---myConky = "conky -c /home/genesis/conkyrc"
+
+--- MAIN CONFIG ---
 
 main = do
         dzenLeftBar     <- spawnPipe myXmonadBar
         dzenRightBar    <- spawnPipe myStatusBar
---      conky           <- spawn myConky
         xmonad $ defaultConfig
                 { terminal              = myTerminal
                 , borderWidth           = 1
@@ -199,6 +215,9 @@ main = do
                 ,((0                            , xF86XK_AudioPrev), spawn "ncmpcpp prev")
                 -- Application shortcuts
                 ,((mod4Mask .|. shiftMask       , xK_b), spawn "~/.scripts/wpchanger")
+                ,((mod4Mask                     , xK_a), do
+                                                          spawn ("echo -e '\n'$(date +\"%T %F\")'\n'===================>>"++"/home/genesis/notes.md")
+                                                          appendFilePrompt myPromptConfig "/home/genesis/notes.md")
                 ]
                 `additionalMouseBindings`
                 [((mod4Mask                     , 2), (const $ spawn "ncmpcpp stop"))
@@ -212,6 +231,8 @@ main = do
                                              if windowId `M.member` floats
                                              then withFocused $ windows . W.sink
                                              else float windowId })
+
+--- ADDITIONAL VARIABLES ---
 
 myTerminal      = "urxvt"
 myBitmapsDir    = "~/.xmonad/icons/"
