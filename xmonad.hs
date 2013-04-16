@@ -154,8 +154,8 @@ myPromptConfig = defaultXPConfig { font        = "xft:PragmataPro:style=Regular:
 
 --- STATUS BARS ---
 
-myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '700' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
-myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '700' -y '0' -h '20' -w '1220' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
+myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '550' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
+myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '550' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
 
 --- MAIN CONFIG ---
 
