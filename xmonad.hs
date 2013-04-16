@@ -33,6 +33,7 @@ import XMonad.Util.Run (spawnPipe)
 import Data.List
 -- MULTIMONITOR
 import XMonad.Actions.PhysicalScreens
+import Data.Maybe (fromMaybe)
 -- UTILITIES
 import XMonad.Prompt
 import XMonad.Prompt.AppendFile
@@ -88,7 +89,7 @@ newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myLogHook h = dynamicLogWithPP ( defaultPP
         {
-                  ppCurrent             = dzenColor "#CC6666" background . pad
+                  ppCurrent             = dzenColor "#CC6666" background . pad -- \i -> wsCurrent i (wrap "|" "|" i) ++ "^p(6;)"
                 , ppVisible             = dzenColor "#81A2BE" background . pad
                 , ppHidden              = dzenColor "#C5C8C6" background . pad
                 , ppHiddenNoWindows     = dzenColor "#707880" background . pad
@@ -107,6 +108,10 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppOrder       =  \(ws:l:t:_) -> [ws,l]
                 , ppOutput      =   hPutStrLn h
         } )
+       where
+          fg c        = dzenColor c ""
+          wsIcon = ("^i(/home/genesis/.xmonad/icons/" ++) . wrap "ws-" ".xbm)"
+          wsCurrent i = fg . fromMaybe "#CC6666" . lookup i . zip [1..9] $ concatMap (replicate 3) ["#8C9440", "#8C9440", "#8C9440"]
 
 --- GRID SELECT CUSTOMISATION ---
 
@@ -172,8 +177,7 @@ main = do
                 , workspaces            = myWorkspaces
                 , manageHook            = newManageHook
                 , handleEventHook       = fullscreenEventHook <+> docksEventHook
-                , startupHook           = setWMName "LG3D"
-                , logHook               = myLogHook dzenLeftBar
+                , logHook               = myLogHook dzenLeftBar >> setWMName "LG3D"
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
