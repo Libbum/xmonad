@@ -58,15 +58,15 @@ defaultLayouts = onWorkspace (myWorkspaces !! 8) ((avoidStruts fullScreen) ||| f
 --- WORKSPACES ---
 
 myWorkspaces = clickable $
-                ["^i(/home/genesis/.xmonad/icons/alpha.xpm) alpha"
-                ,"^i(/home/genesis/.xmonad/icons/beta.xpm) beta"
-                ,"^i(/home/genesis/.xmonad/icons/gamma.xpm) gamma"
-                ,"^i(/home/genesis/.xmonad/icons/delta.xpm) delta"
-                ,"^i(/home/genesis/.xmonad/icons/epsilon.xpm) epsilon"
-                ,"^i(/home/genesis/.xmonad/icons/stigma.xpm) stigma"
-                ,"^i(/home/genesis/.xmonad/icons/zeta.xpm) zeta"
-                ,"^i(/home/genesis/.xmonad/icons/eta.xpm) eta"
-                ,"^i(/home/genesis/.xmonad/icons/theta.xpm) theta"]
+                ["^i("++myIconsDir++"alpha.xpm) alpha"
+                ,"^i("++myIconsDir++"beta.xpm) beta"
+                ,"^i("++myIconsDir++"gamma.xpm) gamma"
+                ,"^i("++myIconsDir++"delta.xpm) delta"
+                ,"^i("++myIconsDir++"epsilon.xpm) epsilon"
+                ,"^i("++myIconsDir++"stigma.xpm) stigma"
+                ,"^i("++myIconsDir++"zeta.xpm) zeta"
+                ,"^i("++myIconsDir++"eta.xpm) eta"
+                ,"^i("++myIconsDir++"theta.xpm) theta"]
         where clickable l     = [ "^ca(1,xdotool key super+" ++ show (n) ++ ")" ++ ws ++ "^ca()" |
                                     (i,ws) <- zip [1..] l,
                                     let n = i ]
@@ -97,20 +97,20 @@ myLogHook h = dynamicLogWithPP ( defaultPP
                 , ppSep                 = "    "
                 , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
                                 (\x -> case x of
-                                        "Full"                           ->      "^i(/home/genesis/.xmonad/icons/monitor.xbm)"
-                                        "Spacing 60 ResizableTall"       ->      "^i(/home/genesis/.xmonad/icons/layout.xbm)"
-                                        "Spacing 5 ResizableTall"        ->      "^i(/home/genesis/.xmonad/icons/layout_tall.xbm)"
-                                        "SimplestFloat"                  ->      "^i(/home/genesis/.xmonad/icons/layers.xbm)"
-                                        "Spacing 5 Spiral"               ->      "^i(/home/genesis/.xmonad/icons/spiral.xbm)"
-                                        "Circle"                         ->      "^i(/home/genesis/.xmonad/icons/circle.xbm)"
-                                        _                                ->      "^i(/home/genesis/.xmonad/icons/grid3x3.xbm)"
+                                        "Full"                           ->      "^i("++myIconsDir++"monitor.xbm)"
+                                        "Spacing 60 ResizableTall"       ->      "^i("++myIconsDir++"layout.xbm)"
+                                        "Spacing 5 ResizableTall"        ->      "^i("++myIconsDir++"layout_tall.xbm)"
+                                        "SimplestFloat"                  ->      "^i("++myIconsDir++"layers.xbm)"
+                                        "Spacing 5 Spiral"               ->      "^i("++myIconsDir++"spiral.xbm)"
+                                        "Circle"                         ->      "^i("++myIconsDir++"circle.xbm)"
+                                        _                                ->      "^i("++myIconsDir++"grid3x3.xbm)"
                                 )
                 , ppOrder       =  \(ws:l:t:_) -> [ws,l]
                 , ppOutput      =   hPutStrLn h
         } )
        where
           fg c        = dzenColor c ""
-          wsIcon = ("^i(/home/genesis/.xmonad/icons/" ++) . wrap "ws-" ".xbm)"
+          --wsIcon = ("^i("++myIconsDir) . wrap "ws-" ".xbm)"
           wsCurrent i = fg . fromMaybe "#CC6666" . lookup i . zip [1..9] $ concatMap (replicate 3) ["#8C9440", "#8C9440", "#8C9440"]
 
 --- GRID SELECT CUSTOMISATION ---
@@ -142,14 +142,14 @@ hybridColorizer = colorRangeFromClassName
 
 gsconfig2 colorizer = (buildDefaultGSConfig colorizer)  { gs_cellwidth  = 400
                                                         , gs_cellheight = 100
-                                                        , gs_font       = "xft:PragmataPro:style=Regular:pixelsize=16"
+                                                        , gs_font       = myFont16
                                                         , gs_navigate   = myGSNavigation
                                                         , gs_colorizer  = hybridColorizer
                                                         }
 
 --- PROMPT CUSTOMISATION ---
 
-myPromptConfig = defaultXPConfig { font        = "xft:PragmataPro:style=Regular:pixelsize=16"
+myPromptConfig = defaultXPConfig { font        = myFont16
                                  , height      = 30
                                  , bgColor     = "#000000"
                                  , fgColor     = "#8C9440"
@@ -159,8 +159,8 @@ myPromptConfig = defaultXPConfig { font        = "xft:PragmataPro:style=Regular:
 
 --- STATUS BARS ---
 
-myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '550' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont
-myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '550' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont
+myXmonadBar = "dzen2 -x '1920' -y '0' -h '20' -w '550' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
+myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -xs 3 -x '550' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
 
 --- MAIN CONFIG ---
 
@@ -239,8 +239,9 @@ main = do
 --- ADDITIONAL VARIABLES ---
 
 myTerminal      = "urxvt"
-myBitmapsDir    = "~/.xmonad/icons/"
-myFont          = "xft:PragmataPro:style=Regular:pixelsize=12"
+myIconsDir      = "/home/genesis/.xmonad/icons/"
+myFont12        = "xft:PragmataPro:style=Regular:pixelsize=12"
+myFont16        = "xft:PragmataPro:style=Regular:pixelsize=16"
 
 background    = "#000000"
 foreground    = "#ffffff"
