@@ -89,13 +89,13 @@ newManageHook = myManageHook <+> manageHook defaultConfig <+> manageDocks
 
 myLogHook h = dynamicLogWithPP ( defaultPP
         {
-                  ppCurrent             = dzenColor "#CC6666" background . pad -- \i -> wsCurrent i (wrap "|" "|" i) ++ "^p(6;)"
-                , ppVisible             = dzenColor "#81A2BE" background . pad
-                , ppHidden              = dzenColor "#C5C8C6" background . pad
-                , ppHiddenNoWindows     = dzenColor "#707880" background . pad
+                  ppCurrent             = dzenColor "#D53E4F" background . pad -- \i -> wsCurrent i (wrap "|" "|" i) ++ "^p(6;)"
+                , ppVisible             = dzenColor "#3288BD" background . pad
+                , ppHidden              = dzenColor "#AAAAAA" background . pad
+                , ppHiddenNoWindows     = dzenColor "#2B2B2B" background . pad
                 , ppWsSep               = ""
                 , ppSep                 = "    "
-                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#C5C8C6" background .
+                , ppLayout              = wrap "^ca(1,xdotool key super+space)" "^ca()" . dzenColor "#D4D4D4" background .
                                 (\x -> case x of
                                         "Full"                           ->      "^i("++myIconsDir++"monitor.xbm)"
                                         "Spacing 60 ResizableTall"       ->      "^i("++myIconsDir++"layout.xbm)"
@@ -152,8 +152,8 @@ gsconfig2 colorizer = (buildDefaultGSConfig colorizer)  { gs_cellwidth  = 400
 myPromptConfig = defaultXPConfig { font        = myFont16
                                  , height      = 30
                                  , bgColor     = "#000000"
-                                 , fgColor     = "#8C9440"
-                                 , borderColor = "#707880"
+                                 , fgColor     = "#ABDDA4"
+                                 , borderColor = "#808080"
                                  , historySize = 0
                                  }
 
@@ -170,8 +170,8 @@ main = do
         xmonad $ defaultConfig
                 { terminal              = myTerminal
                 , borderWidth           = 1
-                , normalBorderColor     = "#373B41"
-                , focusedBorderColor    = "#DE935F"
+                , normalBorderColor     = "#555555"
+                , focusedBorderColor    = "#FDAE61"
                 , modMask               = mod4Mask
                 , layoutHook            = smartBorders(defaultLayouts)
                 , workspaces            = myWorkspaces
@@ -181,7 +181,7 @@ main = do
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
-                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#81A2BE' -sb '#282A2E' -sf '#DE935F' -fn 'PragmataPro-10'")
+                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
                 -- Window and Program settings for Dvorak Layout
                 ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
