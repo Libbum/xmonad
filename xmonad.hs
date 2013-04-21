@@ -135,10 +135,10 @@ navDefaultHandler = const myGSNavigation
 
 hybridColorizer = colorRangeFromClassName
                       (0x00,0x00,0x00) -- lowest inactive bg
-                      (0x37,0x3B,0x41) -- highest inactive bg
-                      (0x5F,0x81,0x9D) -- active bg
-                      (0x81,0xA2,0xBE) -- inactive fg
-                      (0xC5,0xC8,0xC6) -- active fg
+                      (0x28,0x28,0x28) -- highest inactive bg
+                      (0x32,0x88,0xBD) -- active bg
+                      (0x32,0x88,0xBD) -- inactive fg
+                      (0xFE,0xE0,0x8B) -- active fg
 
 gsconfig2 colorizer = (buildDefaultGSConfig colorizer)  { gs_cellwidth  = 400
                                                         , gs_cellheight = 100

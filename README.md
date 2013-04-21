@@ -17,7 +17,7 @@ I run a triple monitor setup and Dvorak keyboard layout (and am considering movi
 - [X] Set up decent layouts 
 - [X] Individualise layouts; ie. overwrite default workspace layouts based on Xinerama screen - specifically layout flip (master on left for rhs monitor, master on right for lhs monitor) added M-m & M-M commands]
 - [X] fix dzen2 bar to my liking [Colours may be a little overkill at the moment though...]
-- [ ] Possibly rethink this hybrid colour layout. Not sure if I'm happy with it at.
+- [X] Possibly rethink this hybrid colour layout. Not sure if I'm happy with it at. [Now using [αποκλίνων](https://github.com/Libbum/vim-apoklinon)]
 - [X] Organise keymap better
 - [X] Fix flash fullscreen - Think I've got too many hooks fighting for dominance... [Removed ewmh]
 - [X] fullsreen on top of floats [Removed ewmh]
