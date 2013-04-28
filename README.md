@@ -22,3 +22,5 @@ I run a triple monitor setup and Dvorak keyboard layout (and am considering movi
 - [X] Fix flash fullscreen - Think I've got too many hooks fighting for dominance... [Removed ewmh]
 - [X] fullsreen on top of floats [Removed ewmh]
 - [ ] Look into Actions.OnSrceen to see if it's of any use
+- [ ] Fix XPM colour
+- [ ] Check if we can realign the right dzen bar better so that RPM, CPU & Speeds etc don't move slightly on change

@@ -135,7 +135,7 @@ navDefaultHandler = const myGSNavigation
 
 hybridColorizer = colorRangeFromClassName
                       (0x00,0x00,0x00) -- lowest inactive bg
-                      (0x28,0x28,0x28) -- highest inactive bg
+                      (0x2B,0x2B,0x2B) -- highest inactive bg
                       (0x32,0x88,0xBD) -- active bg
                       (0x32,0x88,0xBD) -- inactive fg
                       (0xFE,0xE0,0x8B) -- active fg
