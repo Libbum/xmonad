@@ -25,3 +25,5 @@ I run a triple monitor setup and Dvorak keyboard layout (and am considering movi
 - [ ] Fix XPM colour
 - [ ] Check if we can realign the right dzen bar better so that RPM, CPU & Speeds etc don't move slightly on change
 - [X] Add cron job to sync package db https://bbs.archlinux.org/viewtopic.php?id=57291
+- [X] Create qwerty/phmhal branch
+- [ ] Actually get the qwerty/phmhal branch working properly
