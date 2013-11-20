@@ -1,5 +1,5 @@
 out_to_console yes
-gap_y -540
+gap_y -565
 out_to_x no
 update_interval 2
 total_run_times 0
@@ -9,9 +9,9 @@ double_buffer yes
 
 TEXT
 $if_mpd_playing^fg(\#9E0142)^i(/home/genesis/.xmonad/icons/music.xbm) ${mpd_artist} ^fg(\#555555)- ^fg(\#D53E4F)${mpd_title}$endif     \
-^fg(\#F46D43)^i(/home/genesis/.xmonad/icons/down.xbm) ${downspeed eth1}     \
-^fg(\#FDAE61)^i($HOME/.xmonad/icons/up.xbm) ${upspeed eth1}     \
-^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) ${hwmon 0 temp 2}°C ${hwmon 1 fan 1}RPM     \
+^fg(\#F46D43)^i(/home/genesis/.xmonad/icons/down.xbm) ${downspeed wlp4s0}     \
+^fg(\#FDAE61)^i($HOME/.xmonad/icons/up.xbm) ${upspeed wlp4s0}     \
+^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) ${hwmon 0 temp 2}°C      \
 ^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}%     \
 ^fg(\#E6F598)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax}     \
 ^fg(\#ABDDA4)^i($HOME/.xmonad/icons/pacman.xbm) ${execi 3600 pacman -Qu | wc -l}     \
