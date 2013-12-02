@@ -12,8 +12,8 @@ $if_mpd_playing^fg(\#9E0142)^i(/home/genesis/.xmonad/icons/music.xbm) ${mpd_arti
 ^fg(\#F46D43)^i(/home/genesis/.xmonad/icons/down.xbm) ${downspeed wlp4s0}     \
 ^fg(\#FDAE61)^i($HOME/.xmonad/icons/up.xbm) ${upspeed wlp4s0}     \
 ^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) ${hwmon 0 temp 2}°C      \
-^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}%     \
+^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu1}% ${cpu cpu2}%     \
 ^fg(\#E6F598)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax}     \
-^fg(\#ABDDA4)^i($HOME/.xmonad/icons/pacman.xbm) ${execi 3600 pacman -Qu | wc -l}     \
+^fg(\#ABDDA4)^i($HOME/.xmonad/icons/battery.xbm) ${battery_short}     \
 ^fg(\#66C2A5)^i($HOME/.xmonad/icons/mail.xbm) ${execi 20 cat $HOME/.config/unread}     \
 ^fg(\#3288BD)^i($HOME/.xmonad/icons/clock.xbm) ${time %a} ${time %e} ${time %b} ^fg(\#555555)> ^fg(\#5E4FA2)${time %I}:${time %M} ${time %P}  
