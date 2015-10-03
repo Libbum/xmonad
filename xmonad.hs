@@ -224,10 +224,10 @@ main = do
                                                           appendFilePrompt myPromptConfig "/home/genesis/notes.md")
                 ]
                 `additionalMouseBindings`
-                [((mod4Mask                     , 2), (const $ spawn "ncmpcpp stop"))
-                ,((mod4Mask                     , 4), (const $ spawn "ncmpcpp prev"))
-                ,((mod4Mask                     , 5), (const $ spawn "ncmpcpp next"))
-                ]
+                [((mod4Mask                     , 2), (const $ spawn "ncmpcpp stop"))
+                ,((mod4Mask                     , 4), (const $ spawn "ncmpcpp prev"))
+                ,((mod4Mask                     , 5), (const $ spawn "ncmpcpp next"))
+                ]
                 `removeKeys`
                 [(mod4Mask .|. shiftMask, xK_c)]
         where toggleFloat = withFocused (\windowId -> do
