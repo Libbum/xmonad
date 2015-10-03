@@ -74,7 +74,7 @@ myWorkspaces = clickable $
 --- HOOKS ---
 
 myManageHook = composeAll
-                [ isFullscreen                                              --> (doF W.focusDown   <+> doFullFloat)
+                [ isFullscreen                                              --> (doF W.focusDown   <+> doFullFloat)
                 , isDialog                                                  --> (doF W.shiftMaster <+> doFloat)
                 , resource =? "dmenu"                                       --> doFloat
                 , resource =? "skype"                                       --> doFloat
