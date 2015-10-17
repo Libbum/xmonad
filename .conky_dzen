@@ -8,12 +8,10 @@ short_units yes
 double_buffer yes
 
 TEXT
-$if_mpd_playing^fg(\#9E0142)^i(/home/genesis/.xmonad/icons/music.xbm) ${mpd_artist} ^fg(\#555555)- ^fg(\#D53E4F)${mpd_title}$endif     \
-^fg(\#F46D43)^i(/home/genesis/.xmonad/icons/down.xbm) ${downspeed wlp4s0}     \
-^fg(\#FDAE61)^i($HOME/.xmonad/icons/up.xbm) ${upspeed wlp4s0}     \
-^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) ${hwmon 0 temp 2}°C      \
-^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu1}% ${cpu cpu2}%     \
-^fg(\#E6F598)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax}     \
-^fg(\#ABDDA4)^i($HOME/.xmonad/icons/battery.xbm) ${battery_short}     \
-^fg(\#66C2A5)^i($HOME/.xmonad/icons/mail.xbm) ${execi 20 cat $HOME/.config/unread}     \
+^fg(\#F46D43)^i($HOME/.xmonad/icons/down.xbm) ${downspeed enp0s25}     \
+^fg(\#FDAE61)^i($HOME/.xmonad/icons/up.xbm) ${upspeed enp0s25}     \
+^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) CPU: ${hwmon 1 temp 1}°C GPU: ${hwmon 2 temp 1}°C    \
+^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}% ${cpu cpu4}% ${cpu cpu5}% ${cpu cpu6}% ${cpu cpu7}%    \
+^fg(\#E6F598)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax} (${swap}/${swapmax})    \
+^fg(\#66C2A5)^i($HOME/.xmonad/icons/mail.xbm) ${execi 60 python $HOME/scratch/unread.py}     \
 ^fg(\#3288BD)^i($HOME/.xmonad/icons/clock.xbm) ${time %a} ${time %e} ${time %b} ^fg(\#555555)> ^fg(\#5E4FA2)${time %I}:${time %M} ${time %P}  

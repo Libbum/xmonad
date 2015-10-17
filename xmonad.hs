@@ -160,7 +160,7 @@ myPromptConfig = defaultXPConfig { font        = myFont16
 --- STATUS BARS ---
 
 myXmonadBar = "dzen2 -x '0' -y '0' -h '20' -w '565' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
-myStatusBar = "conky -qc /home/genesis/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
+myStatusBar = "conky -qc /home/tim/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
 
 --- MAIN CONFIG ---
 
@@ -220,8 +220,8 @@ main = do
                 -- Application shortcuts
                 ,((mod4Mask .|. shiftMask       , xK_b), spawn "~/.scripts/wpchanger")
                 ,((mod4Mask                     , xK_a), do
-                                                          spawn ("echo -e '\n'$(date +\"%T %F\")'\n'===================>>"++"/home/genesis/notes.md")
-                                                          appendFilePrompt myPromptConfig "/home/genesis/notes.md")
+                                                          spawn ("echo -e '\n'$(date +\"%T %F\")'\n'===================>>"++"/home/tim/notes.md")
+                                                          appendFilePrompt myPromptConfig "/home/tim/notes.md")
                 ]
                 `additionalMouseBindings`
                 [((mod4Mask                     , 2), (const $ spawn "ncmpcpp stop"))
@@ -239,7 +239,7 @@ main = do
 --- ADDITIONAL VARIABLES ---
 
 myTerminal      = "urxvt"
-myIconsDir      = "/home/genesis/.xmonad/icons/"
+myIconsDir      = "/home/tim/.xmonad/icons/"
 myFont12        = "xft:PragmataPro:style=Regular:pixelsize=12"
 myFont16        = "xft:PragmataPro:style=Regular:pixelsize=16"
 
