@@ -183,6 +183,7 @@ main = do
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
                 ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
+                ,((mod4Mask                     , xK_l), spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'")
                 -- Window and Program settings for Dvorak Layout
                 ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
