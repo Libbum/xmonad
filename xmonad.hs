@@ -77,9 +77,9 @@ myManageHook = composeAll
                 [ isFullscreen                                              --> (doF W.focusDown   <+> doFullFloat)
                 , isDialog                                                  --> (doF W.shiftMaster <+> doFloat)
                 , resource =? "dmenu"                                       --> doFloat
+                , resource =? "galculator"                                  --> doFloat
                 , resource =? "skype"                                       --> doFloat
                 , resource =? "feh"                                         --> doFloat
-                , resource =? "MATLAB"                                      --> doShift (myWorkspaces !! 8)
                 , resource =? "zathura"                                     --> doShift (myWorkspaces !! 8)
                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                 ]
@@ -184,6 +184,7 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'")
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
                 ,((mod4Mask                     , xK_l), spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'")
+                ,((mod4Mask                     , xK_c), spawn "galculator")
                 -- Window and Program settings for Dvorak Layout
                 ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
@@ -205,6 +206,11 @@ main = do
                 ,((mod4Mask .|. shiftMask       , xK_w), sendToScreen 0)
                 ,((mod4Mask .|. shiftMask       , xK_v), sendToScreen 1)
                 ,((mod4Mask .|. shiftMask       , xK_z), sendToScreen 2)
+ -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
+ -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
+--  [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+--      | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+--      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 --                [((modMask .|. mask, key), f sc)
 --                       | (key, sc) <- zip [xK_w, xK_v, xK_z] [0..]
 --                       , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
