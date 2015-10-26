@@ -80,7 +80,7 @@ myManageHook = composeAll
                 , resource =? "galculator"                                  --> doFloat
                 , resource =? "skype"                                       --> doFloat
                 , resource =? "feh"                                         --> doFloat
-                , resource =? "zathura"                                     --> doShift (myWorkspaces !! 8)
+                , resource =? "trayer"                                      --> doShift (myWorkspaces !! 3)
                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                 ]
         where role = stringProperty "WM_WINDOW_ROLE"
@@ -185,6 +185,7 @@ main = do
                 ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
                 ,((mod4Mask                     , xK_l), spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'")
                 ,((mod4Mask                     , xK_c), spawn "galculator")
+                ,((mod4Mask                     , xK_o), spawn "~/bin/spooler") ---Spool process for 5 seconds to toggle conky time zone check.
                 -- Window and Program settings for Dvorak Layout
                 ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
