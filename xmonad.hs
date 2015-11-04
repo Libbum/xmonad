@@ -1,4 +1,5 @@
 import XMonad
+
 -- LAYOUTS
 import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
@@ -162,6 +163,25 @@ myPromptConfig = defaultXPConfig { font        = myFont16
 myXmonadBar = "dzen2 -x '0' -y '0' -h '20' -w '565' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
 myStatusBar = "conky -qc /home/tim/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
 
+-- CONTROL CONFIG --
+screenlock :: MonadIO m => m ()
+screenlock = spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'"
+
+showmenu :: MonadIO m => m ()
+showmenu = spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'"
+
+recompile :: MonadIO m => m ()
+recompile = spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart"
+
+calculator :: MonadIO m => m ()
+calculator = spawn "galculator"
+
+melbtime :: MonadIO m => m ()
+melbtime = spawn "~/bin/spooler" --Spool process for 5 seconds to toggle conky time zone check.
+
+changewp :: MonadIO m => m ()
+changewp = spawn "~/.scripts/wpchanger"
+
 --- MAIN CONFIG ---
 
 main = do
@@ -181,11 +201,11 @@ main = do
                 }
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
-                ,((mod4Mask .|. shiftMask       , xK_r), spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'")
-                ,((mod4Mask                     , xK_q), spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart" )
-                ,((mod4Mask                     , xK_l), spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'")
-                ,((mod4Mask                     , xK_c), spawn "galculator")
-                ,((mod4Mask                     , xK_o), spawn "~/bin/spooler") ---Spool process for 5 seconds to toggle conky time zone check.
+                ,((mod4Mask .|. shiftMask       , xK_r), showmenu)
+                ,((mod4Mask                     , xK_q), recompile)
+                ,((mod4Mask                     , xK_l), screenlock)
+                ,((mod4Mask                     , xK_c), calculator)
+                ,((mod4Mask                     , xK_o), melbtime)
                 -- Window and Program settings for Dvorak Layout
                 ,((mod4Mask                     , xK_g), goToSelected $ gsconfig2 hybridColorizer)
                 ,((mod4Mask                     , xK_apostrophe), windows W.focusMaster)
@@ -226,7 +246,7 @@ main = do
                 ,((0                            , xF86XK_AudioNext), spawn "ncmpcpp next")
                 ,((0                            , xF86XK_AudioPrev), spawn "ncmpcpp prev")
                 -- Application shortcuts
-                ,((mod4Mask .|. shiftMask       , xK_b), spawn "~/.scripts/wpchanger")
+                ,((mod4Mask .|. shiftMask       , xK_b), changewp)
                 ,((mod4Mask                     , xK_a), do
                                                           spawn ("echo -e '\n'$(date +\"%T %F\")'\n'===================>>"++"/home/tim/notes.md")
                                                           appendFilePrompt myPromptConfig "/home/tim/notes.md")
