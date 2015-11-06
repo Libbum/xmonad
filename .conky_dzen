@@ -13,5 +13,5 @@ TEXT
 ^fg(\#FEE08B)^i($HOME/.xmonad/icons/temp.xbm) CPU: ${hwmon 1 temp 1}°C GPU: ${hwmon 2 temp 1}°C    \
 ^fg(\#FFFFBF)^i($HOME/.xmonad/icons/cpu.xbm) ${cpu cpu0}% ${cpu cpu1}% ${cpu cpu2}% ${cpu cpu3}% ${cpu cpu4}% ${cpu cpu5}% ${cpu cpu6}% ${cpu cpu7}%    \
 ^fg(\#E6F598)^i($HOME/.xmonad/icons/mem.xbm) ${mem}/${memmax} (${swap}/${swapmax})    \
-^fg(\#66C2A5)^i($HOME/.xmonad/icons/mail.xbm) ${execi 60 python $HOME/scratch/unread.py}     \
+^fg(\#66C2A5)^i($HOME/.xmonad/icons/mail.xbm) ${execi 60 python $HOME/bin/unread.py}    \
 ^fg(\#3288BD)^i($HOME/.xmonad/icons/clock.xbm) ${time %a %e %b} ^fg(\#555555)> ${if_match "${exec pidof spooler}" != ""}^fg(\#D53E4F)${tztime Australia/Melbourne %I:%M %P}${else}^fg(\#5E4FA2)${time %I:%M %P}${endif}
