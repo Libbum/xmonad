@@ -171,7 +171,7 @@ screenlock :: MonadIO m => m ()
 screenlock = spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1' -xshift -950"
 
 showmenu :: MonadIO m => m ()
-showmenu = spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'"
+showmenu = spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro'"
 
 recomp :: MonadIO m => m ()
 recomp = spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart"
