@@ -1,5 +1,5 @@
 import XMonad
-
+import Control.Monad (liftM)
 -- LAYOUTS
 import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
@@ -81,6 +81,9 @@ myManageHook = composeAll
                 , resource =? "galculator"                                  --> doFloat
                 , resource =? "skype"                                       --> doFloat
                 , resource =? "feh"                                         --> doFloat
+                , resource =? "MATLAB R2015b - academic use"                --> (doFloat <+> doShift (myWorkspaces !! 8))
+                , (liftM (take 6) title) =? "Figure" <&&>
+                               resource =? "MATLAB R2015b - academic use"   --> (doFloat <+> doShift (myWorkspaces !! 8))
                 , resource =? "trayer"                                      --> doShift (myWorkspaces !! 3)
                 , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") --> (ask >>= doF . W.sink)
                 ]
@@ -161,17 +164,17 @@ myPromptConfig = defaultXPConfig { font        = myFont16
 --- STATUS BARS ---
 
 myXmonadBar = "dzen2 -x '0' -y '0' -h '20' -w '565' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
-myStatusBar = "conky -qc /home/tim/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1370' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
+myStatusBar = "conky -qc /home/tim/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1355' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
 
 -- CONTROL CONFIG --
 screenlock :: MonadIO m => m ()
-screenlock = spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1'"
+screenlock = spawn "sflock -f '-*-droid sans mono-medium-r-*-*-50-120-200-*-*-*-iso8859-1' -xshift -950"
 
 showmenu :: MonadIO m => m ()
 showmenu = spawn "dmenu_run -h '20' -nb '#000000' -nf '#3288BD' -sb '#2B2B2B' -sf '#F46D43' -fn 'PragmataPro-10'"
 
-recompile :: MonadIO m => m ()
-recompile = spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart"
+recomp :: MonadIO m => m ()
+recomp = spawn "killall dzen2; killall conky; cd ~/.xmonad; ghc -threaded xmonad.hs; mv xmonad xmonad-x86_64-linux; xmonad --restart"
 
 calculator :: MonadIO m => m ()
 calculator = spawn "galculator"
@@ -202,7 +205,7 @@ main = do
                 `additionalKeys`
                 [((mod4Mask .|. shiftMask       , xK_x), kill)
                 ,((mod4Mask .|. shiftMask       , xK_r), showmenu)
-                ,((mod4Mask                     , xK_q), recompile)
+                ,((mod4Mask                     , xK_q), recomp)
                 ,((mod4Mask                     , xK_l), screenlock)
                 ,((mod4Mask                     , xK_c), calculator)
                 ,((mod4Mask                     , xK_o), melbtime)
@@ -236,8 +239,9 @@ main = do
 --                       | (key, sc) <- zip [xK_w, xK_v, xK_z] [0..]
 --                       , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
                 --Special keys
+                ,((mod4Mask                     , xK_Print), spawn "sleep 0.2; scrot -s")
                 ,((0                            , xK_Print), spawn "scrot")
-                ,((mod4Mask                     , xK_Print), spawn "scrot -s")
+                ,((mod4Mask .|. controlMask     , xK_Print), spawn "sleep 0.2; scrot -s ~/tmp.png && ~/.scripts/clip.py ~/tmp.png && rm ~/tmp.png") --clipboard copy
                 ,((0                            , xF86XK_AudioLowerVolume), spawn "amixer set Master 2-")
                 ,((0                            , xF86XK_AudioRaiseVolume), spawn "amixer set Master 2+")
                 ,((0                            , xF86XK_AudioMute), spawn "amixer set Master toggle")
