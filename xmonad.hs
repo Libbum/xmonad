@@ -163,7 +163,7 @@ myPromptConfig = defaultXPConfig { font        = myFont16
 
 --- STATUS BARS ---
 
-myXmonadBar = "dzen2 -x '0' -y '0' -h '20' -w '565' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
+myXmonadBar = "dzen2 -dock -x '0' -y '0' -h '20' -w '565' -ta 'l' -fg '"++foreground++"' -bg '"++background++"' -fn "++myFont12
 myStatusBar = "conky -qc /home/tim/.xmonad/.conky_dzen | dzen2 -x '565' -y '0' -h '20' -w '1355' -ta 'r' -bg '"++background++"' -fg '"++foreground++"' -fn "++myFont12
 
 -- CONTROL CONFIG --
